@@ -1,8 +1,9 @@
 <template>
-  <div class="block">
-    <span class="demonstration">默认</span>
-    <el-slider v-model="value1"></el-slider>
-  </div>
+  <el-row>
+    <el-button type="primary">主要按钮</el-button>
+    <router-link to="http:www.baidu.com">跳转</router-link>
+    <router-view></router-view>
+  </el-row>
 </template>
 
 <script>
