@@ -7,6 +7,50 @@
         <span class="titlelist">|</span>
         <span class="titleName2">用户登录</span>
       </div>
+
+      <el-form ref="form" :model="form" label-width="0">
+        <el-form-item>
+          <el-input
+            v-model="form.user"
+            class="inputUser"
+            prefix-icon="el-icon-user"
+            placeholder="请输入手机号"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input
+            class="inputWord"
+            prefix-icon="el-icon-lock"
+            placeholder="请输入密码"
+            :show-password="true"
+            v-model="form.password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-row>
+            <el-col :span="20">
+              <el-input
+                class="inputCap"
+                prefix-icon="el-icon-key"
+                v-model="form.code"
+                placeholder="请输入验证码"
+              ></el-input>
+            </el-col>
+            <el-col :span="4">
+              <img src alt />
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-checkbox v-model="checked">
+          我已阅读并同意
+          <el-link type="primary">用户协议</el-link>和
+          <el-link type="primary">隐私条款</el-link>
+        </el-checkbox>
+        <br />
+        <el-button class="my-btn" type="primary">登录</el-button>
+        <br />
+        <el-button class="my-btn" type="primary">注册</el-button>
+      </el-form>
     </div>
     <div class="right">
       <img src="@/assets/img/login_banner_ele.png" alt />
@@ -14,9 +58,20 @@
   </div>
 </template>
 
+
 <script>
 export default {
-  name: "login"
+  name: "login",
+  data() {
+    return {
+      form: {
+        user: "",
+        password: "",
+        code: ""
+      },
+      checked: false
+    };
+  }
 };
 </script>
 
@@ -36,25 +91,60 @@ export default {
     height: 550px;
     background: rgba(245, 245, 245, 1);
     padding: 43px;
+    .my-btn {
+      width: 394px;
+      height: 40px;
+      background: rgba(20, 147, 250, 1);
+      border-radius: 4px;
+      margin-top: 28px;
+    }
+    .inputUser {
+      width: 394px;
+      height: 42px;
+      //   background: rgba(255, 255, 255, 1);
+      border: 1px solid rgba(204, 207, 213, 1);
+      border-radius: 4px;
+      margin-top: 29px;
+    }
 
-    .titleName {
-      font-size: 24px;
-      font-family: SourceHanSansCN;
-      font-weight: 400;
-      color: rgba(12, 12, 12, 1);
-      padding: 0 15px;
+    .inputWord {
+      width: 394px;
+      height: 42px;
+      //   background: rgba(255, 255, 255, 1);
+      border: 1px solid rgba(204, 207, 213, 1);
+      border-radius: 4px;
+      //   margin-top: 25px;
+      //   margin-bottom: 26px;
     }
-    .titlelist {
-      width: 1px;
-      height: 28px;
-      background: rgba(199, 199, 199, 1);
+
+    .title {
+      .titleName {
+        font-size: 24px;
+        font-family: SourceHanSansCN;
+        font-weight: 400;
+        color: rgba(12, 12, 12, 1);
+        padding: 0 15px;
+      }
+      .titlelist {
+        width: 1px;
+        height: 28px;
+        background: rgba(199, 199, 199, 1);
+      }
+      .titleName2 {
+        font-size: 24px;
+        font-family: PingFangSC;
+        font-weight: 400;
+        color: rgba(12, 12, 12, 1);
+        padding-left: 15px;
+      }
     }
-    .titleName2 {
-      font-size: 24px;
-      font-family: PingFangSC;
-      font-weight: 400;
-      color: rgba(12, 12, 12, 1);
-      padding-left: 15px;
+
+    .inputCap {
+      width: 284px;
+      height: 42px;
+      background: rgba(255, 255, 255, 1);
+      border: 1px solid rgba(204, 207, 213, 1);
+      border-radius: 4px;
     }
   }
 }
