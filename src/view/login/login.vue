@@ -8,7 +8,7 @@
         <span class="titleName2">用户登录</span>
       </div>
 
-      <el-form ref="form" :model="form" label-width="0">
+      <el-form ref="form" :model="form">
         <el-form-item>
           <el-input
             v-model="form.user"
@@ -28,7 +28,7 @@
         </el-form-item>
         <el-form-item>
           <el-row>
-            <el-col :span="20">
+            <el-col :span="16">
               <el-input
                 class="inputCap"
                 prefix-icon="el-icon-key"
@@ -36,20 +36,23 @@
                 placeholder="请输入验证码"
               ></el-input>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="8">
               <img src alt />
             </el-col>
           </el-row>
         </el-form-item>
-        <el-checkbox v-model="checked">
-          我已阅读并同意
-          <el-link type="primary">用户协议</el-link>和
-          <el-link type="primary">隐私条款</el-link>
-        </el-checkbox>
-        <br />
-        <el-button class="my-btn" type="primary">登录</el-button>
-        <br />
-        <el-button class="my-btn" type="primary">注册</el-button>
+        <el-form-item>
+          <el-checkbox v-model="checked">
+            我已阅读并同意
+            <el-link type="primary">用户协议</el-link>和
+            <el-link type="primary">隐私条款</el-link>
+          </el-checkbox>
+        </el-form-item>
+        <el-form-item>
+          <el-button class="my-btn" type="primary">登录</el-button>
+          <br>
+          <el-button class="my-btn" type="primary">注册</el-button>
+        </el-form-item>
       </el-form>
     </div>
     <div class="right">
@@ -96,7 +99,10 @@ export default {
       height: 40px;
       background: rgba(20, 147, 250, 1);
       border-radius: 4px;
-      margin-top: 28px;
+    //   margin-top: 28px;
+    }.my-btn:nth-child(3) {
+       margin-top: 26px;
+      
     }
     .inputUser {
       width: 394px;
