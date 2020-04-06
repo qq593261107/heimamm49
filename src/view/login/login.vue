@@ -7,17 +7,17 @@
         <span class="titlelist">|</span>
         <span class="titleName2">用户登录</span>
       </div>
-
-      <el-form ref="form" :model="form">
-        <el-form-item>
+      <!-- form表单 -->
+      <el-form ref="form"  :model="form" :rules="rules">
+        <el-form-item prop="phone">
           <el-input
-            v-model="form.user"
-            class="inputUser"
+            v-model="form.phone"
+            class="inputPhone"
             prefix-icon="el-icon-user"
             placeholder="请输入手机号"
           ></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="password">
           <el-input
             class="inputWord"
             prefix-icon="el-icon-lock"
