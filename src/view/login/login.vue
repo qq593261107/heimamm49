@@ -93,7 +93,7 @@ export default {
           {min:4,max:4,message:'请输入正确验证码',trigger:'blur'}
         ],
         checked:[
-          {type: '',required:true,message:'请勾选协议',trigger:'change'},
+          {required:true,message:'请勾选协议',trigger:'change'},
         ],
       }
     };
@@ -107,9 +107,11 @@ export default {
           this.$message.error('登录失败');
         }
       });
+      this.$refs.form.validateField('checked');
     },
     registerClick(){
       this.$refs.register.dialogFormVisible = true
+
     }
   }
 };
