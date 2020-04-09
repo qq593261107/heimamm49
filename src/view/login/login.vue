@@ -8,7 +8,7 @@
         <span class="titleName2">用户登录</span>
       </div>
       <!-- form表单 -->
-      <el-form ref="form"  :model="form" :rules="rules">
+      <el-form ref="form" :model="form" :rules="rules">
         <el-form-item prop="phone">
           <el-input
             v-model="form.phone"
@@ -37,7 +37,7 @@
               ></el-input>
             </el-col>
             <el-col :span="8">
-              <img src="@/assets/img/key.jpg" class="keyImg" alt />
+              <img :src="codeUrl" @click="clickCode" class="keyImg" alt />
             </el-col>
           </el-row>
         </el-form-item>
@@ -64,54 +64,84 @@
 
 
 <script>
-import register from './register.vue'
+import register from "./register.vue";
+import { toLogin } from "@/api/login.js";
+import { saveToken } from "@/utils/token.js";
 export default {
   name: "login",
-  components:{
+  components: {
     register
   },
   data() {
     return {
+      codeUrl: process.env.VUE_APP_URL + "/captcha?type=login",
       form: {
         phone: "",
         password: "",
         code: "",
-        checked: '',
+        checked: ""
       },
-      
-      rules:{
-        phone:[
-          {required:true,message:'请输入手机号',trigger:'blur'},
-          {min:11,max:11,message:'请输入11位手机号',trigger:'blur'}
+
+      rules: {
+        phone: [
+          { required: true, message: "请输入手机号", trigger: "change" },
+          {
+            validator: (rule, value, callback) => {
+              let _phone = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
+              if (_phone.test(value)) {
+                callback();
+              } else {
+                callback("请输入正确手机号");
+              }
+            },
+            trigger: "change"
+          }
         ],
-        password:[
-          {required:true,message:'请输入密码',trigger:'blur'},
-          {min:6,max:12,message:'请输入6到12位密码',trigger:'blur'}
+        password: [
+          { required: true, message: "请输入密码", trigger: "change" },
+          { min: 6, max: 12, message: "请输入6到12位密码", trigger: "change" }
         ],
-        code:[
-          {required:true,message:'请输入验证码',trigger:'blur'},
-          {min:4,max:4,message:'请输入正确验证码',trigger:'blur'}
+        code: [
+          { required: true, message: "请输入验证码", trigger: "change" },
+          { min: 4, max: 4, message: "请输入正确验证码", trigger: "change" }
         ],
-        checked:[
-          {required:true,message:'请勾选协议',trigger:'blur'},
-        ],
+        checked: [
+          { required: true, message: "请勾选协议", trigger: "change" },
+          {
+            validator: (rule, value, callback) => {
+              if (value == true) {
+                callback();
+              } else {
+                callback("请勾选协议");
+              }
+            },
+            trigger: "change"
+          }
+        ]
       }
     };
   },
-  methods:{
-    loginBtn(){
-      this.$refs.form.validate(valid=>{
-        if(valid){
-           this.$message.success("登录成功")
-        }else{
-          this.$message.error('登录失败');
+  methods: {
+    loginBtn() {
+      this.$refs.form.validate(result => {
+        if (result) {
+          toLogin(this.form).then(res => {
+            this.$message.success("登陆成功");
+            saveToken(res.data.token);
+            window.console.log("登陆信息：", res);
+          });
+        } else {
+          this.$message.error("登录失败");
         }
       });
-      this.$refs.form.validateField('checked');
+      this.$refs.form.validateField("checked");
     },
-    registerClick(){
-      this.$refs.register.dialogFormVisible = true
-
+    registerClick() {
+      this.$refs.register.dialogFormVisible = true;
+    },
+    clickCode() {
+      this.codeUrl =
+        process.env.VUE_APP_URL + "/captcha?type=sendsms" + Date.now();
     }
   }
 };
@@ -197,7 +227,7 @@ export default {
       height: 42px;
     }
 
-    .link{
+    .link {
       margin-top: -3px;
       margin-left: -3px;
     }
