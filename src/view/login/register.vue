@@ -43,23 +43,27 @@
             <el-input v-model="reForm.rcode"></el-input>
           </el-col>
           <el-col :offset="1" :span="7">
-            <el-button @click="getRcode">获取用户验证码</el-button>
+            <el-button @click="getRcode" :disabled="totalTime!=60">
+              获取用户验证码
+              <span v-if="totalTime!=60">{{totalTime}}</span>
+            </el-button>
           </el-col>
         </el-row>
       </el-form-item>
     </el-form>
     <div slot="footer" class="btns">
-      <el-button>取消</el-button>
+      <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="clickBtn">确认</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
-import registerUser from "@/api/register.js";
+import { registerUser, register } from "@/api/register.js";
 export default {
   data() {
     return {
+      totalTime: 60,
       codeUrl: process.env.VUE_APP_URL + "/captcha?type=sendsms",
       dialogFormVisible: false,
       reForm: {
@@ -121,6 +125,15 @@ export default {
       }
     };
   },
+  watch:{
+    dialogFormVisible(newVal){
+      if (newVal==false) {
+        this.$refs.form.resetFields();
+        this.imageUrl = '';
+        
+      }
+    }
+  },
   // mounted(){
   //   alert(process.env.VUE_APP_URL);
   // },
@@ -148,6 +161,17 @@ export default {
     clickBtn() {
       this.$refs.form.validate(result => {
         console.log(result);
+        if (result) {
+          register(this.reForm).then(res => {
+            window.console.log("注册返回信息", res);
+            if (res.code == 200) {
+              this.$message.success("注册成功");
+              this.dialogFormVisible = false;
+            }else{
+              this.$message.success(res.message)
+            }
+          });
+        }
       });
     },
     clickCode() {
@@ -164,15 +188,26 @@ export default {
       if (_pass === false) {
         return;
       } else {
+        // this.totalTime--;
+        // let _interval = setInterval(() => {
+        //   this.totalTime--;
+        //   if (this.totalTime <= 0) {
+        //     clearInterval(_interval);
+        //     this.totalTime = 60;
+        //   }
+        // }, 1000);
         registerUser({
-          code:this.reForm.code,
-          phone:this.reForm.phone
+          code: this.reForm.code,
+          phone: this.reForm.phone
         }).then(res => {
           //成功回调
-          this.$message.success(res.data.data.captcha + "")
+          this.$message.success(res.data.captcha + "");
           console.log(res);
         });
       }
+    },
+    close() {
+      this.dialogFormVisible = false;
     }
   }
 };

@@ -93,7 +93,7 @@ export default {
           {min:4,max:4,message:'请输入正确验证码',trigger:'blur'}
         ],
         checked:[
-          {required:true,message:'请勾选协议',trigger:'change'},
+          {required:true,message:'请勾选协议',trigger:'blur'},
         ],
       }
     };
@@ -192,8 +192,8 @@ export default {
       border-radius: 4px;
     }
     .keyImg {
-      margin-left: 10px;
-      width: 120px;
+      // margin-left: 10px;
+      width: 100%;
       height: 42px;
     }
 
