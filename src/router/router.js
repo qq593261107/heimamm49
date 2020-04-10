@@ -11,6 +11,10 @@ import question from '@/view/home/question/question.vue'
 import business from '@/view/home/business/business.vue'
 import subject from '@/view/home/subject/subject.vue'
 
+// 进度条插件
+import Nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
+
 Vue.use(VueRouter);
 
 let router = new VueRouter({
@@ -20,6 +24,7 @@ let router = new VueRouter({
     },
     {
         path: "/home",
+        redirect: "/home/subject",
         component: layout,
         // 嵌套路由
         children: [{
@@ -43,6 +48,15 @@ let router = new VueRouter({
             component: subject,
         }]
     }]
+})
+
+router.beforeEach((to, from, next) => {
+    Nprogress.start();
+    next()
+
+})
+router.afterEach(() => {
+    Nprogress.done()
 })
 
 export default router;

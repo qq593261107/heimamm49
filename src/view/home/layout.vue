@@ -14,24 +14,24 @@
     </el-header>
     <el-container>
       <el-aside width="auto" class="aside">
-        <el-menu default-active="1" :collapse="isCollapse" class="el-menu-vertical-demo">
-          <el-menu-item index="1">
+        <el-menu :default-active="$route.fullPath" :collapse="isCollapse" class="el-menu-vertical-demo" :router="true">
+          <el-menu-item index="/home/chart" >
             <i class="el-icon-pie-chart"></i>
             <span slot="title">数据概览</span>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="/home/userList">
             <i class="el-icon-user"></i>
             <span slot="title">用户列表</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item index="/home/question">
             <i class="el-icon-edit-outline"></i>
             <span slot="title">题库列表</span>
           </el-menu-item>
-          <el-menu-item index="4">
+          <el-menu-item index="/home/business">
             <i class="el-icon-office-building"></i>
             <span slot="title">企业列表</span>
           </el-menu-item>
-          <el-menu-item index="5">
+          <el-menu-item index="/home/subject">
             <i class="el-icon-notebook-2"></i>
             <span slot="title">学科列表</span>
           </el-menu-item>
@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       userInfo: "",
-      isCollapse:false
+      isCollapse:false,
     };
   },
   created() {
