@@ -176,7 +176,7 @@ export default {
     },
     clickCode() {
       this.codeUrl =
-        process.env.VUE_APP_URL + "/captcha?type=sendsms" + Date.now();
+        process.env.VUE_APP_URL + "/captcha?type=sendsms&t=" + Date.now();
     },
     getRcode() {
       let _pass = true;
@@ -188,14 +188,14 @@ export default {
       if (_pass === false) {
         return;
       } else {
-        // this.totalTime--;
-        // let _interval = setInterval(() => {
-        //   this.totalTime--;
-        //   if (this.totalTime <= 0) {
-        //     clearInterval(_interval);
-        //     this.totalTime = 60;
-        //   }
-        // }, 1000);
+        this.totalTime--;
+        let _interval = setInterval(() => {
+          this.totalTime--;
+          if (this.totalTime <= 0) {
+            clearInterval(_interval);
+            this.totalTime = 60;
+          }
+        }, 1000);
         registerUser({
           code: this.reForm.code,
           phone: this.reForm.phone

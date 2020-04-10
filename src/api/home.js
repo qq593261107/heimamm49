@@ -6,4 +6,10 @@ function getUserInfo(params) {
         params      //data: data   
     })
 }
-export { getUserInfo }
+function exitlogin() {
+    return instance({
+        url: "/logout",
+        method: "get",
+    })
+}
+export { getUserInfo,exitlogin }

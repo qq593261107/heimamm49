@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import {getToken} from './token.js'
+import { getToken, removeToken } from './token.js'
+import router from '@/router/router.js'
 var instance = axios.create({
     baseURL: process.env.VUE_APP_URL,   //设置基地址
     withCredentials: true //跨域照样协带cookie
@@ -24,10 +25,16 @@ instance.interceptors.response.use(function (response) {
     // 可以对响应的值进行一些处理
     // return response;
     // return response.data;
-    if (response.data.code ==200) {
+    if (response.data.code == 200) {
         return response.data
-    } else {
-        Message.error(response.data.message)
+    } else if (response.data.code == 206) {
+        Message.error("未登陆，请重新登陆！");
+        removeToken();
+        router.push("/");
+        return Promise.reject("error");
+    }
+    else {
+        Message.error(response.data.message);
         return Promise.reject("error");
     }
 }, function (error) {
