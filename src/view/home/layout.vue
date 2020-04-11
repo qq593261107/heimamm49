@@ -7,15 +7,20 @@
         <span class="title">黑马面面</span>
       </div>
       <div class="right">
-        <img class="avatar" :src="userInfo.avatar" alt />
-        <span class="name">{{userInfo.username}}，您好</span>
+        <img class="avatar" :src="$store.state.userInfo.avatar" alt />
+        <span class="name">{{$store.state.userInfo.username}}，您好</span>
         <el-button type="primary" @click="exit">退出</el-button>
       </div>
     </el-header>
     <el-container>
       <el-aside width="auto" class="aside">
-        <el-menu :default-active="$route.fullPath" :collapse="isCollapse" class="el-menu-vertical-demo" :router="true">
-          <el-menu-item index="/home/chart" >
+        <el-menu
+          :default-active="$route.fullPath"
+          :collapse="isCollapse"
+          class="el-menu-vertical-demo"
+          :router="true"
+        >
+          <el-menu-item index="/home/chart">
             <i class="el-icon-pie-chart"></i>
             <span slot="title">数据概览</span>
           </el-menu-item>
@@ -46,12 +51,12 @@
 
 <script>
 import { getUserInfo, exitlogin } from "@/api/home.js";
-import { removeToken,getToken } from "@/utils/token.js";
+import { removeToken, getToken } from "@/utils/token.js";
 export default {
   data() {
     return {
       userInfo: "",
-      isCollapse:false,
+      isCollapse: false
     };
   },
   created() {
@@ -66,14 +71,17 @@ export default {
       this.userInfo = res.data;
       this.userInfo.avatar =
         process.env.VUE_APP_URL + "/" + this.userInfo.avatar;
+      // 将用户信息存入vuex
+      this.$store.state.userInfo = this.userInfo;
     });
   },
   methods: {
     exit() {
+      // 弹窗组件
       this.$confirm("是否确认退出登录", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning" // error，
       }).then(() => {
         exitlogin().then(() => {
           removeToken();

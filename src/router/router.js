@@ -20,7 +20,10 @@ Vue.use(VueRouter);
 let router = new VueRouter({
     routes: [{
         path: "/",
-        component: login
+        component: login,
+        meta: {
+            title: "登录",
+        }
     },
     {
         path: "/home",
@@ -30,22 +33,37 @@ let router = new VueRouter({
         children: [{
             path: "chart",
             component: chart,
+            meta: {
+                title: "数据概览",
+            }
         },
         {
             path: "userList",
             component: userList,
+            meta: {
+                title: "用户列表",
+            }
         },
         {
             path: "question",
             component: question,
+            meta: {
+                title: "题库列表",
+            }
         },
         {
             path: "business",
             component: business,
+            meta: {
+                title: "企业列表",
+            }
         },
         {
             path: "subject",
             component: subject,
+            meta: {
+                title: "学科列表",
+            }
         }]
     }]
 })
@@ -55,8 +73,9 @@ router.beforeEach((to, from, next) => {
     next()
 
 })
-router.afterEach(() => {
+router.afterEach((to) => {
     Nprogress.done()
+    document.title = to.meta.title
 })
 
 export default router;
