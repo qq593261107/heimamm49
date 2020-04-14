@@ -12,7 +12,7 @@
           <el-input class="subjectInput" v-model="form.username"></el-input>
         </el-form-item>
         <el-form-item label="状态" prop="status">
-          <el-select placeholder="请选择状态" class="subjectSel" v-model="form.status">
+          <el-select placeholder="请选择状态" v-model="form.status">
             <el-option label="启用" value="1"></el-option>
             <el-option label="禁用" value="0"></el-option>
           </el-select>
@@ -38,7 +38,9 @@
         <el-table-column label="创建者" prop="username"></el-table-column>
         <el-table-column label="创建日期" prop="create_time"></el-table-column>
         <el-table-column label="状态" width="100px">
-          <template slot-scope="scope">{{scope.row.status==1?'启用':'禁用'}}</template>
+          <template slot-scope="scope">
+            <span :class="{att:scope.row.status==0}">{{scope.row.status==1?'启用':'禁用'}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="操作" width="270px">
           <template slot-scope="scope">
@@ -174,14 +176,14 @@ export default {
     margin-top: 20px;
   }
   .subjectInput {
-    width: 100px;
-  }
-  .subjectSel {
-    width: 149px;
+    width: 150px;
   }
   .subjectPagination {
     margin-top: 30px;
     text-align: center;
+  }
+  .att{
+    color: red;
   }
 }
 </style>
