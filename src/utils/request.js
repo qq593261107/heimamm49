@@ -8,7 +8,7 @@ var instance = axios.create({
 });
 
 instance.interceptors.request.use(function (config) {
-    window.console.log(config)
+    // window.console.log(config)
     // 在发送请求之前做些什么
     if (getToken()) {
         config.headers.token = getToken();
@@ -20,8 +20,8 @@ instance.interceptors.request.use(function (config) {
 });
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
-    console.log('响应拦截器')
-    console.log(response)
+    // console.log('响应拦截器')
+    // console.log(response)
     // 可以对响应的值进行一些处理
     // return response;
     // return response.data;

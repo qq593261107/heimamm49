@@ -42,7 +42,7 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
-      <el-main>
+      <el-main class="bcMain">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -67,7 +67,7 @@ export default {
     }
 
     getUserInfo().then(res => {
-      console.log(res);
+      // console.log(res);
       this.userInfo = res.data;
       this.userInfo.avatar =
         process.env.VUE_APP_URL + "/" + this.userInfo.avatar;
@@ -137,6 +137,9 @@ export default {
   }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
+  }
+  .bcMain {
+    background-color: #e8e9ec;
   }
 }
 </style>
