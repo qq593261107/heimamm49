@@ -20,7 +20,11 @@
           class="el-menu-vertical-demo"
           :router="true"
         >
-          <el-menu-item index="/home/chart">
+          <el-menu-item :index="'/home/'+item.path" v-for="(item, index) in $router.options.routes[1].children" :key="index" v-show="item.meta.rules.includes($store.state.role)">
+            <i :class="item.meta.icon"></i>
+            <span slot="title">{{item.meta.title}}</span>
+          </el-menu-item>
+          <!-- <el-menu-item index="/home/chart">
             <i class="el-icon-pie-chart"></i>
             <span slot="title">数据概览</span>
           </el-menu-item>
@@ -39,7 +43,7 @@
           <el-menu-item index="/home/subject">
             <i class="el-icon-notebook-2"></i>
             <span slot="title">学科列表</span>
-          </el-menu-item>
+          </el-menu-item>-->
         </el-menu>
       </el-aside>
       <el-main class="bcMain">
@@ -61,6 +65,7 @@ export default {
   },
   created() {
     // 直接判断在进入首页的时候是否存在token，减少向服务器发送请求
+    console.log(this.$router);
     if (!getToken()) {
       this.$router.push("/");
       return;
@@ -73,6 +78,20 @@ export default {
         process.env.VUE_APP_URL + "/" + this.userInfo.avatar;
       // 将用户信息存入vuex
       this.$store.state.userInfo = this.userInfo;
+      this.$store.state.role = res.data.role;
+      // console.log("登录信息："+this.userInfo);
+      if (res.data.status == 0) {
+        this.$message.warning("您账号已被禁用，请联系管理员！");
+        removeToken();
+        this.$router.push("/");
+      } else {
+        // 判断该用户能不能访问该页面
+        if (!this.$route.meta.rules.includes(res.data.role)) {
+          this.$message.warning("您无权访问该页面");
+          removeToken();
+          this.$router.push("/");
+        }
+      }
     });
   },
   methods: {

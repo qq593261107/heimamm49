@@ -138,7 +138,7 @@ export default {
       this.mode = "add";
       this.$refs.addBusiness.dialogFormVisible = true;
       this.$refs.addBusiness.form = {
-        rid: "",
+        eid: "",
         name: "",
         username: "",
         status: ""
@@ -146,7 +146,8 @@ export default {
     },
     setStatus(id) {
       setBusinessStatus({ id: id }).then(() => {
-        this.search();
+        this.getData();
+        this.$message.success("修改状态成功");
       });
     },
     delBusiness(id) {

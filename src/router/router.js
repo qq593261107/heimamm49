@@ -15,6 +15,10 @@ import subject from '@/view/home/subject/subject.vue'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+import { Message } from 'element-ui'
+import { removeToken } from '@/utils/token.js'
+import store from '@/store/index.js'
+
 Vue.use(VueRouter);
 
 let router = new VueRouter({
@@ -23,6 +27,7 @@ let router = new VueRouter({
         component: login,
         meta: {
             title: "登录",
+            rules: ["超级管理员", "管理员", "老师", "学生"]
         }
     },
     {
@@ -35,6 +40,8 @@ let router = new VueRouter({
             component: chart,
             meta: {
                 title: "数据概览",
+                rules: ["超级管理员", "管理员", "老师"],
+                icon:"el-icon-pie-chart"
             }
         },
         {
@@ -42,6 +49,8 @@ let router = new VueRouter({
             component: userList,
             meta: {
                 title: "用户列表",
+                rules: ["超级管理员", "管理员"],
+                icon:"el-icon-user"
             }
         },
         {
@@ -49,6 +58,8 @@ let router = new VueRouter({
             component: question,
             meta: {
                 title: "题库列表",
+                rules: ["超级管理员", "管理员", "老师"],
+                icon:"el-icon-edit-outline"
             }
         },
         {
@@ -56,6 +67,8 @@ let router = new VueRouter({
             component: business,
             meta: {
                 title: "企业列表",
+                rules: ["超级管理员", "管理员", "老师"],
+                icon:"el-icon-office-building"
             }
         },
         {
@@ -63,6 +76,8 @@ let router = new VueRouter({
             component: subject,
             meta: {
                 title: "学科列表",
+                rules: ["超级管理员", "管理员", "老师", "学生"],
+                icon:"el-icon-notebook-2"
             }
         }]
     }]
@@ -70,7 +85,14 @@ let router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     Nprogress.start();
-    next()
+
+    if (to.meta.rules.includes(store.state.role)) {
+        next()
+    } else {
+        Message.warning("您无权访问该页面")
+        removeToken()
+        next("/")
+    }
 
 })
 router.afterEach((to) => {
